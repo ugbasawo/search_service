@@ -3,11 +3,11 @@ pipeline {
     environment {
         DOCKER_HUB_CREDENTIALS = 'dockerhub-repo'
         IMAGE1_NAME = 'davidokpe/search_service'
-        IMAGE2_NAME = 'davidokpe/payment_service'
-        IMAGE3_NAME = 'davidokpe/nortification_service'
+        IMAGE2_NAME = 'davidokpe/nortification_service'
+        IMAGE3_NAME = 'davidokpe/payment_service'
         REPO1_URL = 'https://github.com/ugbasawo/search_service.git'
-        REPO2_URL = 'https://github.com/ugbasawo/payment_service.git'
-        REPO3_URL = 'https://github.com/ugbasawo/nortification_service.git'
+        REPO2_URL = 'https://github.com/ugbasawo/nortification_service.git'
+        REPO3_URL = 'https://github.com/ugbasawo/payment_service.git'
     }
     stages {
         stage('Git Checkout') {
@@ -15,10 +15,10 @@ pipeline {
                 dir('search_service') {
                     git url: REPO1_URL, branch: 'main'
                 }
-                dir('payment_service') {
+                dir('nortification_service') {
                     git url: REPO2_URL, branch: 'main'
                 }
-                dir('nortification_service') {
+                dir('payment') {
                     git url: REPO3_URL, branch: 'main'
                 }
             }
@@ -26,14 +26,16 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    // Build the Docker images
+                    // Build the first Docker image
                     dir('search_service') {
                         sh 'docker build -t ${IMAGE1_NAME} -f Dockerfile .'
                     }
-                    dir('payment_service') {
+                    // Build the second Docker image
+                    dir('nortification_service') {
                         sh 'docker build -t ${IMAGE2_NAME} -f Dockerfile .'
                     }
-                    dir('nortification_service') {
+                    // Build the third Docker image
+                    dir('payment_service') {
                         sh 'docker build -t ${IMAGE3_NAME} -f Dockerfile .'
                     }
                 }
