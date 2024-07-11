@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-repo'
+        IMAGE1_NAME = 'davidokpe/search_service'
+        IMAGE2_NAME = 'davidokpe/payment_service'
+        IMAGE3_NAME = 'davidokpe/nortification_service'
+        REPO1_URL = 'https://github.com/ugbasawo/search_service.git'
+        REPO2_URL = 'https://github.com/ugbasawo/pament_service.git'
+        REPO3_URL = 'https://github.com/ugbasawo/nortification_service.git'
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                dir('search_service') {
+                    git url: REPO1_URL, branch: 'main'
+                }
+                dir('pament_service') {
+                    git url: REPO2_URL, branch: 'main'
+                }
+                dir('nortification_service') {
+                    git url: REPO3_URL, branch: 'main'
+                }
+            }
+        }
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    // Build the first Docker image
+                    dir('search_service') {
+                        sh 'docker build -t ${IMAGE1_NAME} -f Dockerfile .'
+                    }
+                    // Build the second Docker image
+                    dir('payment_sevice') {
+                        sh 'docker build -t ${IMAGE2_NAME} -f Dockerfile .'
+                    }
+                    // Build the third Docker image
+                    dir('nortification_service') {
+                        sh 'docker build -t ${IMAGE3_NAME} -f Dockerfile .'
+                    }
+                }
+            }
+        }
+        stage('Push Docker Images to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-repo', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker push ${IMAGE1_NAME}'
+                    sh 'docker push ${IMAGE2_NAME}'
+                    sh 'docker push ${IMAGE3_NAME}'
+                }
+            }
+        }
+    }
+}
+
