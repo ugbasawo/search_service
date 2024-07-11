@@ -15,7 +15,7 @@ pipeline {
                 dir('search_service') {
                     git url: REPO1_URL, branch: 'main'
                 }
-                dir('pament_service') {
+                dir('payment_service') {
                     git url: REPO2_URL, branch: 'main'
                 }
                 dir('nortification_service') {
