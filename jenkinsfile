@@ -6,7 +6,7 @@ pipeline {
         IMAGE2_NAME = 'davidokpe/payment_service'
         IMAGE3_NAME = 'davidokpe/nortification_service'
         REPO1_URL = 'https://github.com/ugbasawo/search_service.git'
-        REPO2_URL = 'https://github.com/ugbasawo/pament_service.git'
+        REPO2_URL = 'https://github.com/ugbasawo/payment_service.git'
         REPO3_URL = 'https://github.com/ugbasawo/nortification_service.git'
     }
     stages {
@@ -26,15 +26,13 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    // Build the first Docker image
+                    // Build the Docker images
                     dir('search_service') {
                         sh 'docker build -t ${IMAGE1_NAME} -f Dockerfile .'
                     }
-                    // Build the second Docker image
-                    dir('payment_sevice') {
+                    dir('payment_service') {
                         sh 'docker build -t ${IMAGE2_NAME} -f Dockerfile .'
                     }
-                    // Build the third Docker image
                     dir('nortification_service') {
                         sh 'docker build -t ${IMAGE3_NAME} -f Dockerfile .'
                     }
@@ -53,4 +51,3 @@ pipeline {
         }
     }
 }
-
