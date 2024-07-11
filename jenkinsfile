@@ -18,7 +18,7 @@ pipeline {
                 dir('nortification_service') {
                     git url: REPO2_URL, branch: 'main'
                 }
-                dir('payment') {
+                dir('payment_service') { // Corrected directory name
                     git url: REPO3_URL, branch: 'main'
                 }
             }
