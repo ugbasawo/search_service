@@ -2,10 +2,8 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY search_service.py .
+COPY user_service.py /app
 
-RUN pip install flask
+RUN pip install Flask requests
 
-EXPOSE 5002
-
-CMD ["python", "search_service.py"]
+CMD ["python", "user_service.py"]
