@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
         DOCKER_HUB_CREDENTIALS = 'dockerhub-repo'
-        IMAGE1_NAME = 'davidokpe/search_service'
-        IMAGE2_NAME = 'davidokpe/nortification_service'
+        IMAGE1_NAME = 'davidokpe/user_service'
+        IMAGE2_NAME = 'davidokpe/order_service'
         IMAGE3_NAME = 'davidokpe/payment_service'
         REPO1_URL = 'https://github.com/ugbasawo/search_service.git'
         REPO2_URL = 'https://github.com/ugbasawo/nortification_service.git'
@@ -12,10 +12,10 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                dir('search_service') {
+                dir('user_service') {
                     git url: REPO1_URL, branch: 'main'
                 }
-                dir('nortification_service') {
+                dir('order_service') {
                     git url: REPO2_URL, branch: 'main'
                 }
                 dir('payment_service') { // Corrected directory name
@@ -27,11 +27,11 @@ pipeline {
             steps {
                 script {
                     // Build the first Docker image
-                    dir('search_service') {
+                    dir('user_service') {
                         sh 'docker build -t ${IMAGE1_NAME} -f Dockerfile .'
                     }
                     // Build the second Docker image
-                    dir('nortification_service') {
+                    dir('order_service') {
                         sh 'docker build -t ${IMAGE2_NAME} -f Dockerfile .'
                     }
                     // Build the third Docker image
