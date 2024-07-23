@@ -5,8 +5,8 @@ pipeline {
         IMAGE1_NAME = 'davidokpe/user_service'
         IMAGE2_NAME = 'davidokpe/order_service'
         IMAGE3_NAME = 'davidokpe/payment_service'
-        REPO1_URL = 'https://github.com/ugbasawo/search_service.git'
-        REPO2_URL = 'https://github.com/ugbasawo/nortification_service.git'
+        REPO1_URL = 'https://github.com/ugbasawo/user_service.git'
+        REPO2_URL = 'https://github.com/ugbasawo/order_service.git'
         REPO3_URL = 'https://github.com/ugbasawo/payment_service.git'
     }
     stages {
